@@ -371,7 +371,7 @@ function main()
         imgui.Process = imgui_windows.dialog.v
         
         if json_timer[1] then
-            if json_timer[2] + 0.065 <= os.clock() then
+            if json_timer[2] + 0.125 <= os.clock() then
                 json_timer[2] = os.clock()
                 json_timer[1] = false
                 sampSendDialogResponse(json_timer[3], json_timer[4], json_timer[5], json_timer[6])
