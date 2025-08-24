@@ -393,7 +393,7 @@ local workLauncher = (function()
     local checkers = {
         [1] = function(v) -- checkVideocardStatus
             if work.mode == 3 then
-                if v[2]:find("{F78181}На паузе") and tonumber(v[2]:match("(%d+)%.%d%d%%")) > 0 then
+                if v[2]:find("{F78181}На паузе") and tonumber(v[2]:match("(%d+%.%d+)%%?%s*$")) > 0 then
                     return true
                 else
                     return false
@@ -408,7 +408,7 @@ local workLauncher = (function()
         end,
 
         [3] = function(v) -- checkCoolant
-            return tonumber(v[2]:match("(%d+)%.%d%d%%")) <= cfg.coolantPercents
+            return tonumber(v[2]:match("(%d+%.%d+)%%?%s*$")) <= cfg.coolantPercents
         end
     }
 
@@ -854,7 +854,6 @@ local cryptoAnalysys = {
 }
 
 function sampev.onShowDialog(id, style, title, button1, button2, text)
-
     if needReturnToMainWindow then
         local a = title:gsub("%-","")
         if a:find("{BFBBBA}Стойка №%d+ | Полка №%d+") or a:find("{BFBBBA}Выберите тип жидкости") then
@@ -877,8 +876,14 @@ function sampev.onShowDialog(id, style, title, button1, button2, text)
 
             if line:find("^Полка") then
                 local insertText = (line:find("Работает") and line:gsub("Работает", "Работает{ffffff}") or line:gsub("На паузе", "На паузе{ffffff}")):gsub("Полка №%d+", "Видеокарта №"..(#__imDialogData.videocards+1))
-                if tonumber(line:match("(%d+)%.%d%d%%")) <= cfg.coolantPercents then insertText = insertText:gsub("(%d+%.%d%d)%%", "{ff9999}%1%%") else insertText = insertText:gsub("(%d+%.%d%d)%%", "{99ff99}%1%%") end
+                local properDetect = line:match("(%d+%.%d+)%%?%s*$")
+                if properDetect and tonumber(properDetect) <= cfg.coolantPercents then
+                    insertText = insertText:gsub("(%d+%.%d+)%%?%s*$", "{ff9999}%1%%")
+                elseif properDetect then
+                    insertText = insertText:gsub("(%d+%.%d+)%%?%s*$", "{99ff99}%1%%")
+                end
                 insertText = insertText:gsub("(%d+%.%d+%s+BTC)", "{99ff99}%1{ffffff}"):gsub("(%d+%.%d+%s+ASC)", "{ffa500}%1{ffffff}")
+                
                 table.insert(__imDialogData.videocards, {
                     listboxId,
                     insertText
@@ -961,7 +966,7 @@ function sampev.onShowDialog(id, style, title, button1, button2, text)
 
             if not findLineAndRespond("%d+%.%d%d%%", function(line)
                 --utils.addChat(work.videocardMode)
-                return tonumber(line:match("(%d+)%.%d%d%%")) <= cfg.coolantPercents
+                return tonumber(line:match("(%d+%.%d+)%%?%s*$")) <= cfg.coolantPercents
             end, -1) then
                 deactivateScript("Охлаждение не нужно.")
             end
@@ -1006,7 +1011,7 @@ function sampev.onShowDialog(id, style, title, button1, button2, text)
         if title:find('{BFBBBA}Выберите видеокарту') then           
 
             if not findLineAndRespond(work.mode==3 and "{F78181}На паузе" or "{BEF781}Работает", function(line)
-                return tonumber(line:match("(%d+)%.%d%d%%")) > 0
+                return tonumber(line:match("(%d+%.%d+)%%?%s*$")) > 0
             end, -1) then
                 deactivateScript("Работа не требуется, или в видеокартах нет охл. жидкости.")
             end
