@@ -450,7 +450,7 @@ function imgui.OnDrawFrame()
         end
         imgui.SameLine()
         imgui.SetCursorPosX(1000/2 - imgui.CalcTextSize(u8(__imDialogData.title)).x/2)
-        imgui.TextColoredRGB(thisScript().name .. ": "..__imDialogData.title)
+        imgui.TextColoredRGB(thisScript().name .. "[1]: "..__imDialogData.title)
 
         imgui.SameLine()
 
@@ -959,16 +959,13 @@ function sampev.onShowDialog(id, style, title, button1, button2, text)
                 return 
             end            
 
-            if not text:find("%d+%.%d%d%%") then
-                deactivateScript("Охлаждение не нужно.")
+            if not text:find("(%d+%.%d+)%%?%s*$") then
+                deactivateScript("Охлаждение не нужно. 1")
                 return
             end
 
-            if not findLineAndRespond("%d+%.%d%d%%", function(line)
-                --utils.addChat(work.videocardMode)
-                return tonumber(line:match("(%d+%.%d+)%%?%s*$")) <= cfg.coolantPercents
-            end, -1) then
-                deactivateScript("Охлаждение не нужно.")
+            if not findLineAndRespond("(%d+%.%d+)%%?%s*$", function(line) return tonumber(line:match("(%d+%.%d+)%%?%s*$")) <= cfg.coolantPercents end, -1) then
+                deactivateScript("Охлаждение не нужно. 2")
             end
 
         elseif title:gsub("%-",""):find("{BFBBBA}Стойка №%d+ | Полка №%d+") then
