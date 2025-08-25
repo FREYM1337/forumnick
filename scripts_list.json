@@ -59,12 +59,6 @@
         "description": "После установки данная табличка\nполностью пропадет из игры.",
         "unic": 1
     },
-    "ArizonaAntiTDLag": {
-        "link": "https://raw.githubusercontent.com/FREYM1337/forumnick/main/script_manager/lag.lua",
-        "png": "https://imgur.com/qzto1cV",
-        "description": "Фиксит залаг при открытии \nинвентаря.",
-        "unic": 1
-    },
     "ArizonaAntiUpdate": {
         "link": "https://raw.githubusercontent.com/FREYM1337/forumnick/main/script_manager/AntiUpdate.lua",
         "png": "https://imgur.com/LMO9HLq",
