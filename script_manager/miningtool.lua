@@ -9,6 +9,17 @@ local encoding = require('encoding')
 encoding.default =('CP1251')
 local u8 = encoding.UTF8
 
+sampev.INTERFACE.INCOMING_RPCS[61] = {
+    'onShowDialog',
+    {dialogId = 'uint16'},
+    {style = 'uint8'},
+    {title = 'string8'},
+    {button1 = 'string8'},
+    {button2 = 'string8'},
+    {text = 'encodedString4096'},
+    {placeholder = 'string8'}
+}
+  
 do
     imgui.SwitchContext()
     local style = imgui.GetStyle()
@@ -853,7 +864,7 @@ local cryptoAnalysys = {
     asc = 0
 }
 
-function sampev.onShowDialog(id, style, title, button1, button2, text)
+function sampev.onShowDialog(id, style, title, button1, button2, text, placeholder)
     if needReturnToMainWindow then
         local a = title:gsub("%-","")
         if a:find("{BFBBBA}Стойка №%d+ | Полка №%d+") or a:find("{BFBBBA}Выберите тип жидкости") then
