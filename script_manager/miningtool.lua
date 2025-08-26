@@ -9,16 +9,22 @@ local encoding = require('encoding')
 encoding.default =('CP1251')
 local u8 = encoding.UTF8
 
-sampev.INTERFACE.INCOMING_RPCS[61] = {
-    'onShowDialog',
-    {dialogId = 'uint16'},
-    {style = 'uint8'},
-    {title = 'string8'},
-    {button1 = 'string8'},
-    {button2 = 'string8'},
-    {text = 'encodedString4096'},
-    {placeholder = 'string8'}
-}
+if sampev.INTERFACE.INCOMING_RPCS[61][2]['dialogId'] == 'uint16' then
+    print('normal sampev, patched.')
+    
+    sampev.INTERFACE.INCOMING_RPCS[61] = {
+        'onShowDialog',
+        {dialogId = 'uint16'},
+        {style = 'uint8'},
+        {title = 'string8'},
+        {button1 = 'string8'},
+        {button2 = 'string8'},
+        {text = 'encodedString4096'},
+        {placeholder = 'string8'}
+    }
+else
+    print('old sampev, skip patch onShowDialog')
+end
   
 do
     imgui.SwitchContext()
