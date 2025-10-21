@@ -1,4 +1,4 @@
 {
     "updateurl": "https://raw.githubusercontent.com/FREYM1337/forumnick/main/ArzMarketV3/ArzMarket.lua",
-    "latest": "3.28"
+    "latest": "3.29"
 }
