@@ -27,13 +27,6 @@
         "description": "Ютубер NERREL сделал видео\nс нашим скриптом.",
         "unic": 1
     },
-    "aher_youtube": {
-        "head": "Видео от Aher",
-        "png": "https://imgur.com/lPTQqMP",
-        "link": "https://youtu.be/uCUa0f4tPA4",
-        "description": "Aher снял обзор на скрипт\nзацените, круто же!",
-        "unic": 1
-    },
     "newReview": {
         "head": "Подробный гайд!",
         "png": "https://imgur.com/ZOsqJoh",
